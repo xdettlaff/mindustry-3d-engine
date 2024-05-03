@@ -1,0 +1,147 @@
+set cell_size 1
+set start_x 0
+set start_y 0
+set ray_angle 0
+set array_len 22
+
+op add h_func @counter 1
+jump NEXT always
+
+print "check horisontal"
+jump THEN greaterThan ray_angle 180
+
+set y_step cell_size
+op ceil ray_y start_y
+jump AFTER always
+
+THEN:
+op sub y_step 0 cell_size
+op floor ray_y start_y
+
+AFTER:
+op div cell_size2 y_step 2
+op tan tan ray_angle
+
+print "xs = ys/tan"
+op div x_step y_step tan
+
+print "rx=px-(py-ry)/tan"
+op sub a start_y ray_y
+op div a a tan
+op sub ray_x start_x a
+
+print "while loop"
+
+STARTLOOP:
+print "get index"
+
+jump END lessThan ray_y 0
+jump END lessThan ray_x 0
+jump END greaterThanEq ray_y array_len
+jump END greaterThanEq ray_x array_len
+
+op add iy ray_y cell_size2
+op floor iy iy
+op mul iy iy array_len
+
+op floor ix ray_x
+
+op add i iy ix
+read block bank1 i
+jump END equal block 1
+
+op add ray_x ray_x x_step
+op add ray_y ray_y y_step
+
+jump STARTLOOP always
+
+END:
+op sub ray_x1 start_x ray_x
+op sub ray_y1 start_y ray_y
+op len len ray_x1 ray_y1
+set @counter main
+
+
+
+
+
+
+
+
+
+
+NEXT:
+op add v_func @counter 1
+jump END_OF_ALL always
+
+
+
+
+
+
+
+
+
+
+
+print "check vertical"
+op greaterThan a ray_angle 90
+op lessThan b ray_angle 270
+op land a a b
+jump THEN1 equal a 1
+
+set x_step cell_size
+op ceil ray_x start_x
+jump AFTER1 always
+
+THEN1:
+op sub x_step 0 cell_size
+op floor ray_x start_x
+
+AFTER1:
+op div cell_size2 x_step 2
+op tan tan ray_angle
+
+print "ys = xs*tan"
+op mul y_step x_step tan
+
+print "ry=py-(px-rx)*tan"
+op sub a start_x ray_x
+op mul a a tan
+op sub ray_y start_y a
+
+print "while loop"
+
+STARTLOOP1:
+print "get index"
+
+jump END1 lessThan ray_y 0
+jump END1 lessThan ray_x 0
+jump END1 greaterThanEq ray_y array_len
+jump END1 greaterThanEq ray_x array_len
+
+print "[floor(ry)][floor(rx+cell_size2]"
+
+op add ix ray_x cell_size2
+op floor ix ix
+
+op floor iy ray_y
+op mul iy iy array_len
+
+op add i ix iy
+read block bank1 i
+jump END1 equal block 1
+
+op add ray_x ray_x x_step
+op add ray_y ray_y y_step
+
+jump STARTLOOP1 always
+
+END1:
+op sub ray_x1 start_x ray_x
+op sub ray_y1 start_y ray_y
+op len len ray_x1 ray_y1
+set @counter main
+
+END_OF_ALL:
+end
