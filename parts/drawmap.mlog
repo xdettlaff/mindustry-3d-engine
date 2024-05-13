@@ -1,0 +1,48 @@
+read widthmap cell1 0
+read xcross cell1 2
+read ycross cell1 3
+read xperson cell1 4
+read yperson cell1 5
+read cos cell1 6
+read sin cell1 7
+read xrect cell1 8
+read yrect cell1 9
+op pow maxnum widthmap 2
+op div mul 88 widthmap
+draw stroke 1 255 0 255 0 0
+draw clear 0 0 0 0 0 0
+set i 0
+set dr 0
+read status bank1 i
+op mod x i widthmap
+op idiv y i widthmap
+op mul x x mul
+op mul y y mul
+draw color 0 255 0 128 0 0
+jump 24 equal status false
+draw rect x y mul mul 0 0
+op add dr dr 2
+jump 27 lessThan dr 170
+drawflush display1
+set dr 0
+op add i i 1
+jump 15 lessThan i maxnum
+op mul x xperson mul
+op mul y yperson mul
+op mul cosm cos 255
+op mul sinm sin 255
+op add xm x cosm
+op add ym y sinm
+draw color 0 255 0 255 0 0
+draw poly x y 24 5 0 0
+draw line x y xm ym 0 0
+op mul x xcross mul
+op mul y ycross mul
+draw color 255 0 0 255 0 0
+draw poly x y 24 5 0 0
+op mul xrect xrect mul
+op mul yrect yrect mul
+draw stroke 3 0 0 0 0 0
+draw color 0 255 0 255 0 0
+draw lineRect xrect yrect mul mul 0 0
+drawflush display1

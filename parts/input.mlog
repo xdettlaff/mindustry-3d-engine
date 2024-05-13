@@ -1,0 +1,67 @@
+read widthmap cell1 0
+read step cell1 10
+read sensitivity cell1 11
+op div mul 176 widthmap
+op div mul 176 widthmap
+sensor shoot arc1 @shooting
+jump 24 equal shoot false
+sensor shootX arc1 @shootX
+sensor displayX arc1 @x
+op sub xcursor shootX displayX
+op mul xcursor xcursor 29.3333333333
+op add xcursor xcursor 88
+op div xcursor xcursor -176
+op mul xcursor xcursor sensitivity
+jump 17 notEqual startshoot 0
+set xstartcursor xcursor
+set startshoot 1
+op sub xcursor xcursor xstartcursor
+op add xcursor xcursor xcursorlast
+op cos cos xcursor l
+op sin sin xcursor l
+set angle xcursor
+set stopshoot 0
+jump 28 always stopshoot 0
+jump 28 notEqual stopshoot 0
+set xcursorlast xcursor
+set stopshoot 1
+set startshoot 0
+print "buttons"
+op mul xstep cos step
+op mul ystep sin step
+read xperson cell1 4
+read yperson cell1 5
+sensor up switch1 @enabled
+jump 38 equal up false
+control enabled switch1 0 0 0 0
+op add xperson xperson xstep
+op add yperson yperson ystep
+sensor left switch2 @enabled
+jump 43 equal left false
+op sub xperson xperson ystep
+op add yperson yperson xstep
+control enabled switch2 0 0 0 0
+sensor right switch3 @enabled
+jump 48 equal right false
+op add xperson xperson ystep
+op sub yperson yperson xstep
+control enabled switch3 0 0 0 0
+sensor down switch4 @enabled
+jump 53 equal down false
+op sub xperson xperson xstep
+op sub yperson yperson ystep
+control enabled switch4 0 0 0 0
+sensor START switch5 @enabled
+jump 56 equal START 1
+write 0 cell1 15
+op min yperson yperson widthmap
+op min xperson xperson widthmap
+op max yperson yperson 0
+op max xperson xperson 0
+write xperson cell1 4
+write yperson cell1 5
+write cos cell1 6
+write sin cell1 7
+write START cell1 16
+op mod angle angle 360
+write angle cell1 13

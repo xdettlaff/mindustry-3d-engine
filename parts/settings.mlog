@@ -1,0 +1,22 @@
+set widthmap 13
+set FOV 100
+set Sensitivity 100
+set Stepsize 0.333333333
+set wall_height 0.67
+set AbsError 0.001
+set cell_size 1
+set texture_size 7
+set shadow_k 40
+set shadow_distance 2
+set max_shadow 200
+write widthmap cell1 0
+write texture_size cell1 1
+write Stepsize cell1 10
+write FOV cell1 11
+write Sensitivity cell1 12
+write cell_size cell1 14
+write wall_height cell1 17
+write shadow_k cell1 19
+write shadow_distance cell1 20
+write max_shadow cell1 21
+

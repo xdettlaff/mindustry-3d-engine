@@ -1,0 +1,31 @@
+read widthmap cell1 0
+read xcell cell1 8
+read ycell cell1 9
+sensor up switch1 @enabled
+jump 7 equal up false
+control enabled switch1 0 0 0 0
+op add ycell ycell 1
+sensor left switch2 @enabled
+jump 11 equal left false
+op sub xcell xcell 1
+control enabled switch2 0 0 0 0
+sensor right switch3 @enabled
+jump 15 equal right false
+op add xcell xcell 1
+control enabled switch3 0 0 0 0
+sensor down switch4 @enabled
+jump 19 equal down false
+op sub ycell ycell 1
+control enabled switch4 0 0 0 0
+sensor status switch5 @enabled
+jump 22 greaterThanEq xcell 0
+op sub xcell widthmap 1
+jump 24 greaterThanEq ycell 0
+op sub ycell widthmap 1
+op mod x xcell widthmap
+op mod y ycell widthmap
+op mul i y widthmap
+op add i i x
+write status bank1 i
+write x cell1 8
+write y cell1 9
